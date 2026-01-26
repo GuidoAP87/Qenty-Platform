@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="catalogo-header">
+    <h1>Formación Mística</h1>
+    <p style="font-size: 1.2rem; color: #666; max-width: 600px; margin: 10px auto;">
+        Descubre las herramientas ancestrales para tu evolución. <br>
+        Pasa el cursor sobre cada carta para revelar su secreto.
+    </p>
+</div>
+
+<div class="grid-magica">
+    {% for item in items %}
+    <div class="course-card">
+        
+        <div class="course-icon">
+            {% if 'Tarot' in item.nombre %}🔮
+            {% elif 'Runas' in item.nombre %}ᛟ
+            {% elif 'Velo' in item.nombre %}🕯️
+            {% elif 'Defensa' in item.nombre %}🛡️
+            {% elif 'Chaman' in item.nombre %}🪶
+            {% else %}✨{% endif %}
+        </div>
+
+        <div class="course-content">
+            <h3>{{ item.nombre }}</h3>
+            <div class="course-price">${{ item.precio }}</div>
+        </div>
+
+        <div class="course-overlay">
+            <h3 style="color: #FFD700; margin-bottom: 10px;">{{ item.nombre }}</h3>
+            <p class="course-desc">
+                {{ item.desc }}
+            </p>
+            <button class="btn-course">Inscribirse Ahora</button>
+        </div>
+        
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener('mousemove', function(e) {
+        let body = document.querySelector('body');
+        let star = document.createElement('span');
+        star.style.position = 'absolute';
+        star.style.left = e.pageX + 'px';
+        star.style.top = e.pageY + 'px';
+        star.style.width = 3 + Math.random() * 5 + 'px';
+        star.style.height = star.style.width;
+        star.style.borderRadius = '50%';
+        star.style.pointerEvents = 'none';
+        star.style.opacity = '0.9';
+        star.style.zIndex = '9999';
+        star.style.background = '#FFD700'; // Dorado
+        star.style.boxShadow = '0 0 8px #FFD700, 0 0 15px #DAA520'; 
+        
+        body.appendChild(star);
+
+        let directionX = Math.random() * 2 - 1;
+        let directionY = Math.random() * 3 - 0.5;
+        let speed = 0.02 + Math.random() * 0.03;
+
+        let animation = setInterval(() => {
+            star.style.top = (parseFloat(star.style.top) + directionY) + 'px';
+            star.style.left = (parseFloat(star.style.left) + directionX) + 'px';
+            star.style.opacity = parseFloat(star.style.opacity) - speed;
+
+            if(star.style.opacity <= 0) {
+                clearInterval(animation);
+                star.remove();
+            }
+        }, 20);
+    });
+</script>
+
+{% endblock %}

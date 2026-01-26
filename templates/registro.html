@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero" style="min-height: 60vh; display: flex; align-items: center; justify-content: center;">
+    <div class="card" style="max-width: 400px; width: 100%; text-align: center;">
+        <h2>Crear Cuenta</h2>
+        
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div style="color: red; margin-bottom: 10px;">{{ messages[0] }}</div>
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="/registro" style="display: flex; flex-direction: column; gap: 15px;">
+            <input type="text" name="nombre" placeholder="Tu Nombre Completo" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <input type="email" name="email" placeholder="Tu Email" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <input type="password" name="password" placeholder="Contraseña" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <button type="submit" class="btn-main" style="border: none; cursor: pointer;">Registrarse</button>
+        </form>
+        <p style="margin-top: 15px;">¿Ya tienes cuenta? <a href="/login" style="color: var(--color-primary); font-weight: bold;">Inicia sesión</a></p>
+    </div>
+</section>
+{% endblock %}

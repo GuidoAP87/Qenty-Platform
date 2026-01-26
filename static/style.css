@@ -1,0 +1,753 @@
+/* =========================================
+   1. VARIABLES Y CONFIGURACIÓN GLOBAL
+   ========================================= */
+:root {
+    /* Paleta de Colores Qenty */
+    --color-primary: #7A3E7D;       /* Violeta Principal */
+    --color-primary-dark: #5a2a5c;  /* Violeta Oscuro */
+    --color-accent: #D8BFD8;        /* Lila Suave */
+    --color-gold: #FFD700;          /* Dorado Brillante */
+    --color-gold-dark: #bfa35f;     /* Dorado Antiguo */
+    
+    /* Fondos y Vidrio */
+    --color-bg-light: #FDFBFE;
+    --glass-bg: rgba(255, 255, 255, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.8);
+    
+    /* Tipografía */
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
+    
+    /* Sombras */
+    --shadow-soft: 0 10px 30px rgba(122, 62, 125, 0.1);
+    --shadow-float: 0 8px 32px 0 rgba(122, 62, 125, 0.15);
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    /* Fondo general sutil */
+    background: linear-gradient(120deg, #fdfbfd 0%, #f4eef5 100%);
+    color: #4A4A4A;
+    overflow-x: hidden; /* Evita scroll lateral indeseado */
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    color: var(--color-primary);
+    margin-top: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+/* =========================================
+   2. HEADER (MENÚ) FIJO Y DECONSTRUIDO
+   ========================================= */
+header {
+    /* POSICIÓN FIJA: Se queda pegado arriba */
+    position: fixed; 
+    top: 20px;
+    
+    /* CENTRADO ABSOLUTO */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    width: 90%;
+    max-width: 1400px;
+    padding: 10px 0;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    z-index: 9999; /* Siempre encima de todo */
+    
+    background: transparent;
+    pointer-events: none; /* Permite clic a través del espacio vacío */
+}
+
+/* Reactivamos los clicks para los elementos interactivos */
+.logo-container, nav {
+    pointer-events: auto;
+}
+
+/* --- LOGO --- */
+.logo-container img {
+    height: 70px;
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Truco para borrar fondo blanco del JPG */
+    mix-blend-mode: multiply; 
+}
+
+.logo-container:hover img {
+    transform: scale(1.1) rotate(-3deg);
+    filter: drop-shadow(0 10px 20px rgba(122, 62, 125, 0.3));
+}
+
+/* --- ISLA DE NAVEGACIÓN (CÁPSULA) --- */
+nav {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 32px rgba(122, 62, 125, 0.1);
+    
+    padding: 8px 15px;
+    border-radius: 50px;
+    
+    display: flex;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Enlaces del menú */
+.nav-link {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #5a2a5c;
+    letter-spacing: 1px;
+    padding: 12px 20px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--color-primary);
+    box-shadow: 0 4px 15px rgba(122, 62, 125, 0.15);
+    transform: translateY(-2px);
+}
+
+.nav-link.highlight {
+    color: var(--color-primary);
+    background: rgba(122, 62, 125, 0.05);
+}
+
+/* Botón ACCEDER Especial */
+.nav-btn-login {
+    margin-left: 10px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #4a244d 100%);
+    color: white !important;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(122, 62, 125, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.nav-btn-login:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(122, 62, 125, 0.5);
+    filter: brightness(1.1);
+}
+
+/* Botón Salir */
+.nav-btn-logout {
+    padding: 8px 20px;
+    color: var(--color-primary);
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+/* =========================================
+   3. HERO SECTION (PORTADA)
+   ========================================= */
+.hero {
+    text-align: center;
+    padding: 140px 20px 80px; /* Padding top alto por el menú fijo */
+    position: relative;
+    z-index: 1;
+}
+
+/* Efecto Aura giratoria detrás del título */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0%; 
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 600px;
+    height: 600px;
+    background: conic-gradient(from 0deg, transparent, rgba(122, 62, 125, 0.1), transparent, rgba(255, 215, 0, 0.15), transparent);
+    border-radius: 50%;
+    z-index: -1;
+    animation: rotateAura 20s linear infinite;
+    filter: blur(40px);
+}
+
+.hero h1 {
+    font-size: 4.5rem;
+    line-height: 1.1;
+    margin-bottom: 15px;
+    text-shadow: 0 0 30px rgba(122, 62, 125, 0.2);
+}
+
+/* --- WIDGETS LUNARES --- */
+.moon-widget {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 215, 0, 0.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    padding: 10px 25px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.1);
+    animation: float 4s ease-in-out infinite;
+}
+
+.moon-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+}
+
+.moon-text {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: #9A7B4F;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+.moon-label {
+    display: block;
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-bottom: 2px;
+}
+
+/* Barra de Ciclo Lunar */
+.lunar-cycle-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.phase-item {
+    text-align: center;
+    opacity: 0.4;
+    transition: all 0.5s ease;
+    position: relative;
+}
+
+.phase-icon {
+    font-size: 1.5rem;
+    display: block;
+}
+
+.phase-name {
+    display: none;
+}
+
+.phase-item.active {
+    opacity: 1;
+    transform: scale(1.3) translateY(-5px);
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+}
+
+/* =========================================
+   4. SECCIÓN "ACERCA DE" (BIOGRAFÍA)
+   ========================================= */
+.about-container {
+    max-width: 1000px;
+    margin: 0 auto 80px;
+    padding: 0 20px;
+}
+
+/* Manifiesto */
+.manifesto-box {
+    text-align: center;
+    padding: 60px 40px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(15px);
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 20px 60px rgba(122, 62, 125, 0.1);
+    margin-bottom: 80px;
+    font-style: italic;
+    color: #5a2a5c;
+    font-size: 1.2rem;
+}
+
+.manifesto-highlight {
+    color: var(--color-primary);
+    font-weight: bold;
+    display: block;
+    margin-top: 20px;
+    font-size: 1.3rem;
+    font-style: normal;
+}
+
+/* Grid Bio */
+.bio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+@media (max-width: 768px) {
+    .bio-grid { grid-template-columns: 1fr; }
+}
+
+.bio-content h3 {
+    font-size: 2rem;
+    border-bottom: 2px solid var(--color-gold);
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.bio-content p {
+    text-align: justify;
+    margin-bottom: 15px;
+}
+
+/* Foto Marco */
+.ariel-photo-frame {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 30px rgba(122, 62, 125, 0.2);
+}
+.ariel-photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Legal Box */
+.legal-box {
+    background: #f4eff5;
+    border-left: 5px solid var(--color-primary);
+    padding: 30px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 60px;
+}
+
+.legal-title {
+    font-weight: bold;
+    color: var(--color-primary-dark);
+    display: block;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+/* Oráculo Box */
+.oraculo-box {
+    text-align: center;
+    padding: 20px;
+    background: var(--glass-bg);
+    border-radius: 15px;
+    margin: 40px auto;
+}
+
+/* =========================================
+   5. SECCIÓN CURSOS (ESFERAS MÁGICAS)
+   ========================================= */
+.catalogo-header {
+    text-align: center;
+    margin-bottom: 60px;
+    padding-top: 40px;
+}
+
+.catalogo-header h2 {
+    font-size: 3rem;
+    text-shadow: 0 0 20px rgba(122, 62, 125, 0.3);
+}
+
+.grid-magica {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 50px;
+    padding: 20px;
+    max-width: 1300px;
+    margin: 0 auto;
+    justify-items: center;
+}
+
+/* LA ESFERA (Tarjeta Circular) */
+.course-card {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    aspect-ratio: 1 / 1; /* Cuadrado perfecto */
+    
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%; /* CÍRCULO */
+    
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(122, 62, 125, 0.15);
+    border: 4px solid rgba(255, 255, 255, 0.5);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    backdrop-filter: blur(8px);
+}
+
+/* Fondo giratorio */
+.course-card::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(122, 62, 125, 0.1) 10%, transparent 60%);
+    animation: rotateBackground 15s linear infinite;
+    z-index: 0;
+}
+
+.course-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px rgba(122, 62, 125, 0.3));
+    transition: all 0.5s ease;
+    z-index: 1;
+}
+
+/* Contenido Visible (Normal) */
+.course-content {
+    z-index: 2;
+    transition: all 0.5s ease;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.course-content h3 {
+    font-size: 1.4rem;
+    margin: 0;
+    color: var(--color-primary-dark);
+    line-height: 1.2;
+}
+
+.course-price {
+    font-size: 1.3rem;
+    color: var(--color-gold-dark);
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+/* CAPA OCULTA (Overlay Violeta) */
+.course-overlay {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    background: radial-gradient(circle, rgba(90, 42, 92, 0.98) 20%, rgba(122, 62, 125, 0.95) 100%);
+    border-radius: 50%;
+    
+    display: flex;
+    flex-direction: column;
+    /* DISTRIBUCIÓN PERFECTA: Título arriba, Texto medio, Botón abajo */
+    justify-content: space-between; 
+    align-items: center;
+    
+    padding: 50px 35px;
+    box-sizing: border-box;
+    transition: all 0.4s ease-in-out;
+    z-index: 3;
+    opacity: 0;
+}
+
+.course-overlay h3 {
+    color: var(--color-gold);
+    margin: 0;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.course-desc {
+    color: #fff;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    text-align: center;
+    
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Ocupa el espacio central */
+    
+    margin: 10px 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+}
+
+/* Botón Global (Usado en Home y Cursos) */
+.btn-main, .btn-course {
+    background: var(--color-gold);
+    color: #5a2a5c;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.btn-main:hover, .btn-course:hover {
+    background: #fff;
+    transform: scale(1.05);
+}
+
+/* --- INTERACCIÓN HOVER DE LA ESFERA --- */
+.course-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(122, 62, 125, 0.3);
+    border-color: var(--color-gold);
+}
+
+.course-card:hover .course-overlay {
+    bottom: 0;
+    opacity: 1;
+}
+
+.course-card:hover .course-icon {
+    transform: translateY(-100px) scale(0.5);
+    opacity: 0;
+}
+
+.course-card:hover .course-content {
+    opacity: 0;
+}
+
+/* =========================================
+   6. FOOTER Y ANIMACIONES
+   ========================================= */
+footer {
+    text-align: center;
+    padding: 40px;
+    color: #888;
+    font-size: 0.9rem;
+    background: rgba(255,255,255,0.5);
+    margin-top: 60px;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes rotateAura {
+    from { transform: translate(-50%, 0) rotate(0deg); }
+    to { transform: translate(-50%, 0) rotate(360deg); }
+}
+
+@keyframes rotateBackground {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* --- SECCIÓN PERFIL DE AUTORIDAD (VENDEDOR) --- */
+
+.authority-section {
+    max-width: 1100px;
+    margin: 0 auto 100px;
+    padding: 0 20px;
+}
+
+/* 1. ENCUESTA DE PERFIL (Foto + Credenciales Fuertes) */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    border-radius: 40px;
+    padding: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 20px 60px rgba(122, 62, 125, 0.1);
+    margin-bottom: 60px;
+}
+
+@media (max-width: 768px) {
+    .profile-header { flex-direction: column; text-align: center; }
+}
+
+.profile-photo-container {
+    flex-shrink: 0;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: 6px solid var(--color-gold); /* Borde dorado de autoridad */
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(122, 62, 125, 0.3);
+    position: relative;
+}
+
+.profile-photo-container img {
+    width: 100%; height: 100%; object-fit: cover;
+}
+
+/* Badge de "Verificado" o "Experto" */
+.expert-badge {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    background: var(--color-primary);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    border: 3px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.profile-info h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: var(--color-primary-dark);
+}
+
+.profile-title {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: var(--color-gold-dark);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.profile-bio {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* 2. BARRA DE ESTADÍSTICAS (Esto da jerarquía) */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+    border-top: 1px solid rgba(122, 62, 125, 0.1);
+    padding-top: 30px;
+}
+
+.stat-item strong {
+    display: block;
+    font-size: 2rem;
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+}
+
+.stat-item span {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: bold;
+}
+
+/* 3. PILARES DE VALOR (Grid de Tarjetas) */
+.value-pillars-title {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 50px;
+    color: var(--color-primary-dark);
+}
+
+.pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 80px;
+}
+
+.pillar-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.3s;
+    border-top: 5px solid var(--color-gold); /* Detalle de color arriba */
+}
+
+.pillar-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-float);
+}
+
+.pillar-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.pillar-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+/* 4. COMPROMISO ÉTICO (Diseño tipo Sello de Garantía) */
+.ethics-badge {
+    background: #2a1b3d; /* Fondo oscuro elegante */
+    color: #fff;
+    padding: 50px;
+    border-radius: 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.ethics-badge::before {
+    content: '⚖️';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    font-size: 10rem;
+    opacity: 0.05;
+    transform: rotate(-15deg);
+}
+
+.ethics-badge h3 {
+    color: var(--color-gold);
+    border-bottom: none;
+}

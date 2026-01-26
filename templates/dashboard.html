@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="catalogo">
+    <h2>Bienvenido/a, {{ user.nombre }}</h2>
+    <p style="text-align: center; margin-bottom: 30px;">Aquí tienes acceso a tu material de estudio.</p>
+    
+    <div class="grid-productos">
+        {% for curso in cursos %}
+        <div class="card curso">
+            <div class="card-header"><span>🎓 Disponible</span></div>
+            <h3>{{ curso.nombre }}</h3>
+            <p>{{ curso.desc }}</p>
+            <button style="background: var(--color-primary-dark);">Ver Clases</button>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

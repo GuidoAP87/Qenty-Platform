@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QENTY | Formación Holística</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <a href="/" class="logo-container">
+            <img src="{{ url_for('static', filename='img/logo-qenty.png') }}" alt="QENTY Logo">
+        </a>
+
+        <nav>
+            <ul>
+                <li><a href="/" class="nav-link">Inicio</a></li>
+                <li><a href="/cursos" class="nav-link">Cursos Online</a></li>
+            
+                {% if current_user.is_authenticated %}
+                    <li><a href="/mis-cursos" class="nav-link highlight">Mi Aula</a></li>
+                    <li><a href="/logout" class="nav-btn-logout">Salir</a></li>
+                {% else %}
+                    <li><a href="/login" class="nav-btn-login">Acceder</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 QENTY - Academia de Transformación Personal.</p>
+    </footer>
+</body>
+</html>
