@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="auth-body">
+    <div class="auth-box" style="max-width: 600px;">
+        <h2 style="color: var(--color-gold);">Confirmar Inscripción</h2>
+        
+        <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; margin: 30px 0; text-align: left;">
+            <h3 style="margin: 0 0 10px 0;">{{ curso.nombre }}</h3>
+            <p style="color: #ccc; margin: 0;">{{ curso.desc }}</p>
+            <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
+            <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold;">
+                <span>Total a Pagar:</span>
+                <span style="color: var(--color-gold);">${{ curso.precio }}</span>
+            </div>
+        </div>
+
+        <form action="/procesar-pago/{{ curso.id }}" method="POST">
+            <p style="text-align: left; margin-bottom: 5px;">Datos de Tarjeta (Simulacro)</p>
+            <input type="text" placeholder="**** **** **** 4242" style="letter-spacing: 2px;" required>
+            
+            <div style="display: flex; gap: 10px;">
+                <input type="text" placeholder="MM/AA" style="width: 50%;" required>
+                <input type="text" placeholder="CVC" style="width: 50%;" required>
+            </div>
+
+            <button type="submit" class="btn-main" style="width: 100%; margin-top: 20px; font-size: 1.2rem;">
+                ✨ Pagar y Acceder Ahora
+            </button>
+            
+            <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.7;">
+                Ambiente seguro. Al hacer clic, el curso se habilitará instantáneamente en tu aula.
+            </p>
+        </form>
+        
+        <a href="/cursos" style="display: block; margin-top: 20px; color: #aaa;">Cancelar</a>
+    </div>
+</div>
+{% endblock %}

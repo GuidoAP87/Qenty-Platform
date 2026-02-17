@@ -1,19 +1,79 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section class="catalogo">
-    <h2>Bienvenido/a, {{ user.nombre }}</h2>
-    <p style="text-align: center; margin-bottom: 30px;">Aquí tienes acceso a tu material de estudio.</p>
+
+<div class="dashboard-body">
     
-    <div class="grid-productos">
-        {% for curso in cursos %}
-        <div class="card curso">
-            <div class="card-header"><span>🎓 Disponible</span></div>
-            <h3>{{ curso.nombre }}</h3>
-            <p>{{ curso.desc }}</p>
-            <button style="background: var(--color-primary-dark);">Ver Clases</button>
+    <div class="dashboard-container">
+        
+        <div class="dash-header">
+            <div class="dash-welcome">
+                <span>Espacio Personal</span>
+                <h1>Hola, {{ user.nombre }}</h1>
+            </div>
+            <div class="dash-date">
+                Estado: Iniciado/a ✨
+            </div>
         </div>
-        {% endfor %}
+
+        <div class="dash-grid">
+            
+            <div class="glass-panel profile-card">
+                <div class="user-avatar">
+                    {{ user.nombre[0] | upper }}
+                </div>
+                
+                <h3 style="margin: 0; color: white;">{{ user.nombre }}</h3>
+                <p style="color: #aaa; font-size: 0.9rem; margin-top: 5px;">{{ user.email }}</p>
+                
+                <div style="margin-top: 20px;">
+                    <span class="user-level">★ Nivel 1: Buscador</span>
+                </div>
+
+                <ul class="dash-menu">
+                    <li>👤 Mi Cuenta</li>
+                    <li>📜 Mis Certificados</li>
+                    <li>💳 Pagos e Historial</li>
+                    <a href="/logout" style="text-decoration: none;">
+                        <li style="color: #ff6b6b; border-bottom: none;">🚪 Cerrar Sesión</li>
+                    </a>
+                </ul>
+            </div>
+
+            <div class="glass-panel">
+                <h2 class="section-title">Mis Cursos Activos</h2>
+                
+                {% if user.cursos_adquiridos|length > 0 %}
+                    
+                    {% for curso in user.cursos_adquiridos %}
+                    <div class="active-course-card">
+                        <div class="ac-icon">{{ curso.icono }}</div>
+                        <div style="flex-grow: 1;" class="ac-info">
+                            <h4>{{ curso.nombre }}</h4>
+                            <p style="font-size: 0.85rem; color: #aaa;">Acceso Permanente</p>
+                            <div class="ac-progress-bar">
+                                <div class="ac-progress-fill" style="width: 10%;"></div>
+                            </div>
+                        </div>
+                        <a href="#" class="btn-course" style="padding: 8px 20px; font-size: 0.7rem; margin-left: 15px;">Entrar al Aula</a>
+                    </div>
+                    {% endfor %}
+
+                {% else %}
+                    
+                    <div style="margin-top: 40px; text-align: center; padding: 40px; border: 1px dashed rgba(255,255,255,0.2); border-radius: 15px;">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">🎓</div>
+                        <h3 style="color: white;">Aún no tienes inscripciones</h3>
+                        <p style="color: #bbb; margin-bottom: 20px;">Tu camino de transformación comienza con el primer paso.</p>
+                        <a href="/cursos" class="btn-main">Ver Catálogo Completo</a>
+                    </div>
+
+                {% endif %}
+
+            </div>
+        </div>
     </div>
-</section>
+
+</div>
+
 {% endblock %}

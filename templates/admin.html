@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-body">
+    <div class="dashboard-container">
+        
+        <div class="dash-header">
+            <div class="dash-welcome">
+                <span style="color: #ff6b6b;">⚠ MODO ADMINISTRADOR</span>
+                <h1>Panel de Control</h1>
+            </div>
+            <a href="/mis-cursos" class="btn-main" style="background: transparent; border: 1px solid white;">Ir al Aula Normal</a>
+        </div>
+
+        <div class="glass-panel" style="margin-bottom: 50px;">
+            <h2 style="color: var(--color-gold); margin-bottom: 20px;">+ Agregar Nuevo Curso</h2>
+            
+            <form method="POST" action="/admin" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                
+                <div style="grid-column: span 2;">
+                    <label style="color: #ccc; font-size: 0.9rem;">Nombre del Curso</label>
+                    <input type="text" name="nombre" placeholder="Ej: Astrología Básica" required 
+                           style="width: 100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid #555; border-radius: 5px; color: white;">
+                </div>
+
+                <div>
+                    <label style="color: #ccc; font-size: 0.9rem;">Precio (ARS)</label>
+                    <input type="number" name="precio" placeholder="Ej: 50000" required
+                           style="width: 100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid #555; border-radius: 5px; color: white;">
+                </div>
+
+                <div>
+                    <label style="color: #ccc; font-size: 0.9rem;">Emoji / Icono</label>
+                    <input type="text" name="icono" placeholder="Ej: 🌙" required
+                           style="width: 100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid #555; border-radius: 5px; color: white;">
+                </div>
+
+                <div style="grid-column: span 2;">
+                    <label style="color: #ccc; font-size: 0.9rem;">ID Video YouTube (Solo el código final)</label>
+                    <input type="text" name="video_url" placeholder="Ej: 5qap5aO4i9A (Lo que está después de v=)" required
+                           style="width: 100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid #555; border-radius: 5px; color: white;">
+                </div>
+
+                <div style="grid-column: span 2;">
+                    <label style="color: #ccc; font-size: 0.9rem;">Descripción Corta</label>
+                    <textarea name="desc" rows="3" placeholder="Resumen del curso..." required
+                              style="width: 100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid #555; border-radius: 5px; color: white;"></textarea>
+                </div>
+
+                <button type="submit" class="btn-main" style="grid-column: span 2; margin-top: 10px;">Subir Curso a la Plataforma</button>
+            </form>
+        </div>
+
+        <h2 style="color: white; margin-bottom: 20px;">Cursos Activos</h2>
+        <div class="dash-grid" style="grid-template-columns: 1fr;">
+            
+            {% for curso in cursos %}
+            <div class="active-course-card" style="justify-content: space-between;">
+                <div style="display: flex; align-items: center;">
+                    <div class="ac-icon">{{ curso.icono }}</div>
+                    <div>
+                        <h4 style="margin: 0;">{{ curso.nombre }}</h4>
+                        <p style="color: #aaa; margin: 0; font-size: 0.8rem;">${{ curso.precio }}</p>
+                    </div>
+                </div>
+                
+                <a href="/admin/borrar/{{ curso.id }}" 
+                   onclick="return confirm('¿Seguro que quieres borrar este curso? No se puede deshacer.')"
+                   style="background: #ff4757; color: white; padding: 5px 15px; border-radius: 5px; text-decoration: none; font-size: 0.8rem;">
+                   Eliminar
+                </a>
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

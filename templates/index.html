@@ -3,8 +3,9 @@
 {% block content %}
 
 <section class="hero">
-    <h1>Descubre tu Magia</h1>
-    <p class="subtitle" style="font-size: 1.4rem; color: #666; margin-bottom: 20px;">
+    <h1>Descubrí tu Poder</h1>
+    
+    <p class="subtitle">
         Academia de Artes Místicas Qenty
     </p>
 
@@ -17,19 +18,61 @@
     </div>
 
     <div class="lunar-cycle-container">
-        <div class="phase-item" id="p0"><span class="phase-icon">🌑</span><span class="phase-name">Nueva</span></div>
-        <div class="phase-item" id="p1"><span class="phase-icon">🌒</span><span class="phase-name">Creciente</span></div>
-        <div class="phase-item" id="p2"><span class="phase-icon">🌓</span><span class="phase-name">C. Creciente</span></div>
-        <div class="phase-item" id="p3"><span class="phase-icon">🌔</span><span class="phase-name">Gibosa</span></div>
-        <div class="phase-item" id="p4"><span class="phase-icon">🌕</span><span class="phase-name">Llena</span></div>
-        <div class="phase-item" id="p5"><span class="phase-icon">🌖</span><span class="phase-name">Gibosa</span></div>
-        <div class="phase-item" id="p6"><span class="phase-icon">🌗</span><span class="phase-name">C. Menguante</span></div>
-        <div class="phase-item" id="p7"><span class="phase-icon">🌘</span><span class="phase-name">Menguante</span></div>
+        <div class="phase-item" id="p0"><span class="phase-icon">🌑</span></div>
+        <div class="phase-item" id="p1"><span class="phase-icon">🌒</span></div>
+        <div class="phase-item" id="p2"><span class="phase-icon">🌓</span></div>
+        <div class="phase-item" id="p3"><span class="phase-icon">🌔</span></div>
+        <div class="phase-item" id="p4"><span class="phase-icon">🌕</span></div>
+        <div class="phase-item" id="p5"><span class="phase-icon">🌖</span></div>
+        <div class="phase-item" id="p6"><span class="phase-icon">🌗</span></div>
+        <div class="phase-item" id="p7"><span class="phase-icon">🌘</span></div>
     </div>
 </section>
 
-<section class="authority-section" style="margin-top: 80px;">
+<section class="courses-preview">
+    <div class="catalogo-header" style="padding-top: 0; margin-bottom: 50px;">
+        <h2 style="font-size: 2.5rem;">Comienza tu Formación</h2>
+        <p style="font-size: 1.1rem; color: #666;">Selecciona tu herramienta de transformación</p>
+    </div>
 
+    <div class="grid-magica">
+        {% for item in items %}
+        <div class="course-card">
+            
+            <div class="course-icon">
+                {% if 'Tarot' in item.nombre %}🔮
+                {% elif 'Runas' in item.nombre %}ᛟ
+                {% elif 'Velo' in item.nombre %}🕯️
+                {% elif 'Defensa' in item.nombre %}🛡️
+                {% elif 'Chaman' in item.nombre %}🪶
+                {% else %}✨{% endif %}
+            </div>
+
+            <div class="course-content">
+                <h3>{{ item.nombre }}</h3>
+                <div class="course-price">${{ item.precio }}</div>
+            </div>
+
+            <div class="course-overlay">
+                <h3>{{ item.nombre }}</h3>
+                <p class="course-desc">
+                    {{ item.desc }}
+                </p>
+                <a href="/cursos" class="btn-course">Ver Detalle</a>
+            </div>
+            
+        </div>
+        {% endfor %}
+    </div>
+
+    <div style="text-align: center; margin-top: 50px;">
+        <a href="/cursos" class="btn-main" style="padding: 15px 40px; font-size: 1rem; border: 2px solid var(--color-gold); background: transparent; color: var(--color-primary);">
+            Explorar Catálogo Completo →
+        </a>
+    </div>
+</section>
+
+<section class="authority-section">
     <div class="profile-header">
         <div class="profile-photo-container">
             <img src="{{ url_for('static', filename='img/logo-qenty.png') }}" alt="Ariel Abraham Nihany" style="background: white;">
@@ -37,78 +80,53 @@
         </div>
         
         <div class="profile-info">
-            <span class="profile-title">Licenciado en Psicología & Guía Espiritual</span>
+            <span class="profile-title">Licenciado con Formación Académica Formal & Guía Espiritual</span>
             <h2>Ariel Abraham Nihany</h2>
             <p class="profile-bio">
-                No soy un gurú, soy un puente. Mi misión es unir la estructura clínica de la psicología con la profundidad simbólica del chamanismo y el Tarot. <br><br>
-                He creado Qenty Espacio para quienes no se conforman con respuestas superficiales y buscan ordenar su historia con herramientas reales y fundamentadas.
+                No soy un gurú, soy un puente. Mi misión es unir la estructura clínica de la 
+                <strong>formación académica formal</strong> con la profundidad simbólica del chamanismo y el Tarot. <br><br>
+                He creado Qenty Espacio para quienes no se conforman con respuestas superficiales y buscan ordenar su historia con herramientas reales.
             </p>
             
             <div class="stats-grid">
-                <div class="stat-item">
-                    <strong>+20</strong>
-                    <span>Años de Trayectoria</span>
-                </div>
-                <div class="stat-item">
-                    <strong>Psic.</strong>
-                    <span>Formación Clínica</span>
-                </div>
-                <div class="stat-item">
-                    <strong>100%</strong>
-                    <span>Enfoque Ético</span>
-                </div>
+                <div class="stat-item"><strong>+20</strong><span>Años Experiencia</span></div>
+                <div class="stat-item"><strong>Acad.</strong><span>Formación Clínica</span></div>
+                <div class="stat-item"><strong>100%</strong><span>Enfoque Ético</span></div>
             </div>
         </div>
     </div>
 
-    <h2 class="value-pillars-title">Tu Formación con Raíces Reales</h2>
-    
+    <h2 class="value-pillars-title">¿Por qué formarte en Qenty?</h2>
     <div class="pillars-grid">
         <div class="pillar-card">
             <span class="pillar-icon">👁️</span>
             <h3>Cruce de Mundos</h3>
-            <p style="color: #666; font-size: 0.95rem;">
-                Integramos lo visible (psicología, estructura) con lo invisible (tarot, rituales) sin mezclarlos, haciéndolos dialogar para tu sanación.
+            <p>
+                Integramos <strong>formación académica formal</strong> y rituales ancestrales para una sanación real.
             </p>
         </div>
-
         <div class="pillar-card">
             <span class="pillar-icon">🌱</span>
-            <h3>Sin Soluciones Mágicas</h3>
-            <p style="color: #666; font-size: 0.95rem;">
-                No prometemos atajos. Prometemos procesos conscientes. Aquí no vienes a que te adivinen el futuro, vienes a construirlo.
-            </p>
+            <h3>Sin Atajos</h3>
+            <p>No adivinamos futuros, construimos procesos conscientes y sólidos.</p>
         </div>
-
         <div class="pillar-card">
             <span class="pillar-icon">🏛️</span>
             <h3>Sostén Profesional</h3>
-            <p style="color: #666; font-size: 0.95rem;">
-                Un espacio seguro sostenido por más de 20 años de experiencia terapéutica y formativa. Profundidad, coherencia y ética.
-            </p>
+            <p>Un espacio seguro sostenido por trayectoria terapéutica real.</p>
         </div>
     </div>
 
     <div class="ethics-badge">
         <h3>Garantía de Encuadre Profesional</h3>
-        <p style="color: #ddd; max-width: 800px; margin: 0 auto; line-height: 1.6;">
-            Qenty Espacio opera bajo un estricto código ético. Aunque integro saberes ancestrales, <strong>jamás reemplazo tratamientos médicos o psicoterapéuticos</strong>. 
-            Mis formaciones y lecturas son herramientas de autoconocimiento y desarrollo personal, diferenciadas claramente de la práctica clínica.
+        <p style="color: #ddd; max-width: 800px; margin: 0 auto;">
+            Qenty Espacio opera bajo un estricto código ético. Aunque integro saberes ancestrales, <strong>jamás reemplazo tratamientos médicos</strong>.
         </p>
-        <div style="margin-top: 30px;">
-            <span style="color: var(--color-gold); font-size: 1.2rem; font-family: 'Cinzel', serif;">Ariel A. Nihany</span>
-        </div>
     </div>
-
-    <div style="margin-top: 60px; text-align: center;">
-        <h3 style="margin-bottom: 20px; color: var(--color-primary);">¿Listo para profundizar?</h3>
-        <a href="/cursos" class="btn-main" style="padding: 15px 50px; font-size: 1rem;">Ver Catálogo de Formación</a>
-    </div>
-
 </section>
 
 <script>
-    // --- SCRIPT FASES LUNARES ---
+    // --- FASES LUNARES ---
     function getMoonPhase() {
         const newMoonRef = new Date(2024, 0, 11); 
         const lunarCycle = 29.53058867;
@@ -118,7 +136,7 @@
         const phaseDay = diffDays % lunarCycle;
         
         let icon, text, phaseIndex;
-
+        
         if (phaseDay < 1) { icon = "🌑"; text = "Luna Nueva"; phaseIndex = 0; }
         else if (phaseDay < 7.4) { icon = "🌒"; text = "Creciente"; phaseIndex = 1; }
         else if (phaseDay < 8.4) { icon = "🌓"; text = "Cuarto Creciente"; phaseIndex = 2; }
@@ -128,17 +146,14 @@
         else if (phaseDay < 23.1) { icon = "🌗"; text = "Cuarto Menguante"; phaseIndex = 6; }
         else { icon = "🌘"; text = "Menguante"; phaseIndex = 7; }
 
-        // Actualizar Widget
         document.getElementById('mainMoonIcon').textContent = icon;
         document.getElementById('mainMoonText').textContent = text;
-
-        // Actualizar Barra
         for(let i=0; i<8; i++) { document.getElementById('p'+i).classList.remove('active'); }
         document.getElementById('p'+phaseIndex).classList.add('active');
     }
     getMoonPhase();
 
-    // --- SCRIPT POLVO MÁGICO DORADO ---
+    // --- POLVO MÁGICO ---
     document.addEventListener('mousemove', function(e) {
         let body = document.querySelector('body');
         let star = document.createElement('span');
@@ -150,10 +165,9 @@
         star.style.borderRadius = '50%';
         star.style.pointerEvents = 'none';
         star.style.opacity = '0.9';
-        star.style.zIndex = '9999'; // Muy alto para que se vea sobre todo
-        star.style.background = '#FFD700'; // Dorado
+        star.style.zIndex = '9999';
+        star.style.background = '#FFD700';
         star.style.boxShadow = '0 0 8px #FFD700, 0 0 15px #DAA520'; 
-        
         body.appendChild(star);
 
         let directionX = Math.random() * 2 - 1;
@@ -164,11 +178,7 @@
             star.style.top = (parseFloat(star.style.top) + directionY) + 'px';
             star.style.left = (parseFloat(star.style.left) + directionX) + 'px';
             star.style.opacity = parseFloat(star.style.opacity) - speed;
-
-            if(star.style.opacity <= 0) {
-                clearInterval(animation);
-                star.remove();
-            }
+            if(star.style.opacity <= 0) { clearInterval(animation); star.remove(); }
         }, 20);
     });
 </script>

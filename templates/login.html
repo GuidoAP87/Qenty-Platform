@@ -1,22 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section class="hero" style="min-height: 60vh; display: flex; align-items: center; justify-content: center;">
-    <div class="card" style="max-width: 400px; width: 100%; text-align: center;">
+
+<div class="auth-body">
+    
+    <div class="auth-box">
         <h2>Iniciar Sesión</h2>
         
         {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div style="color: red; margin-bottom: 10px;">{{ messages[0] }}</div>
-        {% endif %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div style="background: rgba(255,0,0,0.2); color: #ffcccb; padding: 10px; border-radius: 10px; margin-bottom: 20px;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
         {% endwith %}
 
-        <form method="POST" action="/login" style="display: flex; flex-direction: column; gap: 15px;">
-            <input type="email" name="email" placeholder="Tu Email" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-            <input type="password" name="password" placeholder="Tu Contraseña" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-            <button type="submit" class="btn-main" style="border: none; cursor: pointer;">Entrar al Portal</button>
+        <form method="POST" action="/login">
+            <input type="email" name="email" placeholder="Tu Correo Electrónico" required>
+            <input type="password" name="password" placeholder="Tu Contraseña" required>
+            
+            <button type="submit" class="btn-main">Entrar al Aula</button>
         </form>
-        <p style="margin-top: 15px;">¿No tienes cuenta? <a href="/registro" style="color: var(--color-primary); font-weight: bold;">Regístrate aquí</a></p>
+        
+        <p>
+            ¿Aún no tienes cuenta? <br>
+            <a href="/registro">Crear una cuenta nueva</a>
+        </p>
     </div>
-</section>
+
+</div>
+
 {% endblock %}
