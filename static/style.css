@@ -26,10 +26,9 @@
 body {
     margin: 0;
     font-family: var(--font-body);
-    /* Fondo general sutil */
     background: linear-gradient(120deg, #fdfbfd 0%, #f4eef5 100%);
     color: #4A4A4A;
-    overflow-x: hidden; /* Evita scroll lateral indeseado */
+    overflow-x: hidden; 
     line-height: 1.6;
 }
 
@@ -46,125 +45,106 @@ a {
 }
 
 /* =========================================
-   2. HEADER (MENÚ) FIJO Y DECONSTRUIDO
+   2. HEADER: BARRA SUPERIOR (TAMAÑOS ESTRICTOS)
    ========================================= */
-header {
-    /* POSICIÓN FIJA: Se queda pegado arriba */
-    position: fixed; 
-    top: 20px;
-    
-    /* CENTRADO ABSOLUTO */
-    left: 50%;
-    transform: translateX(-50%);
-    
-    width: 90%;
-    max-width: 1400px;
-    padding: 10px 0;
-    
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-    z-index: 9999; /* Siempre encima de todo */
-    
+.main-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;           
+    height: 100px;
+    display: flex;         
+    justify-content: space-between; /* ⬅️ ESTO SEPARA LOGO (IZQ) Y MENÚ (DER) */
+    align-items: center;   
+    padding: 0 5%;
+    z-index: 1000;
     background: transparent;
-    pointer-events: none; /* Permite clic a través del espacio vacío */
+    box-sizing: border-box;
 }
 
-/* Reactivamos los clicks para los elementos interactivos */
-.logo-container, nav {
-    pointer-events: auto;
-}
-
-/* --- LOGO --- */
-.logo-container img {
-    height: 70px;
-    display: block;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    /* Truco para borrar fondo blanco del JPG */
-    mix-blend-mode: multiply; 
-}
-
-.logo-container:hover img {
-    transform: scale(1.1) rotate(-3deg);
-    filter: drop-shadow(0 10px 20px rgba(122, 62, 125, 0.3));
-}
-
-/* --- ISLA DE NAVEGACIÓN (CÁPSULA) --- */
-nav {
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 8px 32px rgba(122, 62, 125, 0.1);
-    
-    padding: 8px 15px;
-    border-radius: 50px;
-    
+/* 1. EL CONTENEDOR DEL LOGO (Izquierda) */
+.logo-container {
     display: flex;
     align-items: center;
+    height: 100%; /* Ocupa el alto del header */
+    max-width: 250px; /* ⬅️ REGLA DE HIERRO: Límite de ancho para que no empuje todo */
 }
 
-nav ul {
-    list-style: none;
+.nav-logo {
+    max-height: 75px; /* Altura máxima estricta */
+    max-width: 100%; /* Que no se desborde de su caja */
+    object-fit: contain; /* Mantiene la proporción sin deformarse */
+    mix-blend-mode: multiply; /* ⬅️ TRUCO DE MAGIA: Borra el fondo blanco de tu imagen */
+}
+
+/* 2. EL MENÚ (Derecha) */
+.main-nav {
     display: flex;
+    gap: 10px;
     align-items: center;
-    gap: 5px;
-    margin: 0;
-    padding: 0;
+    width: max-content; /* ⬅️ CLAVE: Evita que el menú se estire como chicle */
+    
+    /* --- ESTILOS MÁGICOS --- */
+    background: rgba(42, 27, 61, 0.4);
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3); 
+    border-top: 1px solid rgba(255, 255, 255, 0.6); 
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(122, 62, 125, 0.2), 0 0 15px rgba(255, 215, 0, 0.15); 
+    padding: 10px 20px; 
+    border-radius: 60px; 
 }
 
-/* Enlaces del menú */
 .nav-link {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    font-weight: 600;
     text-transform: uppercase;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #5a2a5c;
     letter-spacing: 1px;
-    padding: 12px 20px;
-    border-radius: 30px;
-    transition: all 0.3s ease;
+    padding: 8px 15px;
+    border-radius: 40px;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .nav-link:hover {
-    background: rgba(255, 255, 255, 0.8);
-    color: var(--color-primary);
-    box-shadow: 0 4px 15px rgba(122, 62, 125, 0.15);
-    transform: translateY(-2px);
+    color: var(--color-gold, #ffd700);
+    background: rgba(255, 215, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
 }
 
-.nav-link.highlight {
-    color: var(--color-primary);
-    background: rgba(122, 62, 125, 0.05);
-}
-
-/* Botón ACCEDER Especial */
-.nav-btn-login {
-    margin-left: 10px;
-    background: linear-gradient(135deg, var(--color-primary) 0%, #4a244d 100%);
-    color: white !important;
-    padding: 12px 28px;
-    border-radius: 30px;
+.nav-link.active {
+    color: var(--color-gold, #ffd700);
     font-weight: bold;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 4px 15px rgba(122, 62, 125, 0.3);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: rgba(122, 62, 125, 0.3);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    padding-left: 35px;
 }
 
-.nav-btn-login:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 25px rgba(122, 62, 125, 0.5);
-    filter: brightness(1.1);
+.nav-link.active::before {
+    content: '✨';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    filter: drop-shadow(0 0 5px gold);
+    animation: pulseSparkle 2s infinite ease-in-out;
 }
 
-/* Botón Salir */
-.nav-btn-logout {
-    padding: 8px 20px;
-    color: var(--color-primary);
-    font-weight: bold;
-    font-size: 0.8rem;
+@keyframes pulseSparkle {
+    0%, 100% { opacity: 0.8; transform: translateY(-50%) scale(1); }
+    50% { opacity: 1; transform: translateY(-50%) scale(1.2); }
+}
+
+/* EMPUJE DEL CONTENIDO PARA NO TAPARLO CON EL HEADER */
+.page-content {
+    padding-top: 120px; 
+    min-height: 100vh;
 }
 
 /* =========================================
@@ -172,52 +152,36 @@ nav ul {
    ========================================= */
 .hero {
     text-align: center;
-    /* Aumentamos el padding para darle más aire de "portada" */
     padding: 180px 20px 120px; 
     position: relative;
     z-index: 1;
-    
-    /* NUEVO FONDO: Degradado violeta profundo y místico */
     background: radial-gradient(ellipse at center top, #5a2a5c 0%, #2a1b3d 60%, #1a0f25 100%);
-    
-    /* Color base del texto ahora es claro */
     color: white;
-    
-    /* Sutil borde inferior dorado */
     border-bottom: 1px solid rgba(255, 215, 0, 0.2);
     box-shadow: inset 0 -20px 30px rgba(0,0,0,0.3);
 }
 
-/* Eliminamos el aura giratoria anterior, el nuevo fondo ya tiene suficiente fuerza */
-.hero::before { display: none; }
-
-/* Título Principal */
 .hero h1 {
-    font-size: 5rem; /* Más grande e impactante */
+    font-size: 5rem; 
     line-height: 1.1;
     margin-bottom: 20px;
     color: white;
-    /* Sombra dorada brillante para que "encienda" */
     text-shadow: 0 0 25px rgba(255, 215, 0, 0.6), 0 0 10px rgba(255, 215, 0, 0.4);
 }
 
-/* Subtítulo */
 .hero .subtitle {
     font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.8); /* Blanco semitransparente */
+    color: rgba(255, 255, 255, 0.8); 
     margin-bottom: 40px;
     font-weight: 300;
     letter-spacing: 1px;
 }
 
-/* --- WIDGETS ADAPTADOS AL FONDO OSCURO --- */
-
-/* Widget de Fase Actual (Cristal Oscuro) */
+/* Widget de Fase Actual */
 .hero .moon-widget {
     display: inline-flex;
     align-items: center;
     gap: 15px;
-    /* Fondo oscuro y borde dorado más brillante */
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 215, 0, 0.5);
@@ -229,14 +193,13 @@ nav ul {
 
 .hero .moon-icon {
     font-size: 2.2rem;
-    /* Brillo dorado intenso */
     filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8));
 }
 
 .hero .moon-text {
     font-family: var(--font-heading);
     font-weight: 700;
-    color: #FFD700; /* Texto dorado puro */
+    color: #FFD700; 
     text-transform: uppercase;
     font-size: 1rem;
     letter-spacing: 2px;
@@ -245,18 +208,17 @@ nav ul {
 .hero .moon-label {
     display: block;
     font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.6); /* Etiqueta clara */
+    color: rgba(255, 255, 255, 0.6); 
     margin-bottom: 3px;
 }
 
-/* Barra de Ciclo Lunar (Cristal Oscuro) */
+/* Barra de Ciclo Lunar */
 .hero .lunar-cycle-container {
     display: flex;
     justify-content: center;
     gap: 25px;
     margin-top: 50px;
     padding: 20px 30px;
-    /* Fondo oscuro para la barra */
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 60px;
@@ -272,7 +234,6 @@ nav ul {
     opacity: 0.4;
     transition: all 0.5s ease;
     position: relative;
-    /* Hacemos que las lunas inactivas sean más claras para que se vean */
     filter: grayscale(1) brightness(1.5); 
 }
 
@@ -281,12 +242,12 @@ nav ul {
     display: block;
 }
 
-/* La fase activa se enciende en dorado */
 .phase-item.active {
     opacity: 1;
     transform: scale(1.3) translateY(-5px);
-    filter: drop-shadow(0 0 20px #FFD700) brightness(1); /* Brillo dorado intenso */
+    filter: drop-shadow(0 0 20px #FFD700) brightness(1); 
 }
+
 /* =========================================
    4. SECCIÓN "ACERCA DE" (BIOGRAFÍA)
    ========================================= */
@@ -296,7 +257,6 @@ nav ul {
     padding: 0 20px;
 }
 
-/* Manifiesto */
 .manifesto-box {
     text-align: center;
     padding: 60px 40px;
@@ -320,7 +280,6 @@ nav ul {
     font-style: normal;
 }
 
-/* Grid Bio */
 .bio-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -345,7 +304,6 @@ nav ul {
     margin-bottom: 15px;
 }
 
-/* Foto Marco */
 .ariel-photo-frame {
     width: 300px;
     height: 300px;
@@ -357,7 +315,6 @@ nav ul {
 }
 .ariel-photo-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-/* Legal Box */
 .legal-box {
     background: #f4eff5;
     border-left: 5px solid var(--color-primary);
@@ -376,7 +333,6 @@ nav ul {
     text-transform: uppercase;
 }
 
-/* Oráculo Box */
 .oraculo-box {
     text-align: center;
     padding: 20px;
@@ -409,20 +365,16 @@ nav ul {
     justify-items: center;
 }
 
-/* LA ESFERA (Tarjeta Circular) */
 .course-card {
     position: relative;
     width: 320px;
     height: 320px;
-    aspect-ratio: 1 / 1; /* Cuadrado perfecto */
-    
+    aspect-ratio: 1 / 1; 
     background: rgba(255, 255, 255, 0.7);
-    border-radius: 50%; /* CÍRCULO */
-    
+    border-radius: 50%; 
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(122, 62, 125, 0.15);
     border: 4px solid rgba(255, 255, 255, 0.5);
-    
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -432,7 +384,6 @@ nav ul {
     backdrop-filter: blur(8px);
 }
 
-/* Fondo giratorio */
 .course-card::before {
     content: '';
     position: absolute;
@@ -451,7 +402,6 @@ nav ul {
     z-index: 1;
 }
 
-/* Contenido Visible (Normal) */
 .course-content {
     z-index: 2;
     transition: all 0.5s ease;
@@ -474,23 +424,18 @@ nav ul {
     margin-top: 8px;
 }
 
-/* CAPA OCULTA (Overlay Violeta) */
 .course-overlay {
     position: absolute;
     bottom: -100%;
     left: 0;
     width: 100%;
     height: 100%;
-    
     background: radial-gradient(circle, rgba(90, 42, 92, 0.98) 20%, rgba(122, 62, 125, 0.95) 100%);
     border-radius: 50%;
-    
     display: flex;
     flex-direction: column;
-    /* DISTRIBUCIÓN PERFECTA: Título arriba, Texto medio, Botón abajo */
     justify-content: space-between; 
     align-items: center;
-    
     padding: 50px 35px;
     box-sizing: border-box;
     transition: all 0.4s ease-in-out;
@@ -510,11 +455,9 @@ nav ul {
     font-size: 0.85rem;
     line-height: 1.5;
     text-align: center;
-    
     display: flex;
     align-items: center;
-    flex-grow: 1; /* Ocupa el espacio central */
-    
+    flex-grow: 1; 
     margin: 10px 0;
     overflow: hidden;
     display: -webkit-box;
@@ -522,7 +465,6 @@ nav ul {
     -webkit-box-orient: vertical;
 }
 
-/* Botón Global (Usado en Home y Cursos) */
 .btn-main, .btn-course {
     background: var(--color-gold);
     color: #5a2a5c;
@@ -545,7 +487,6 @@ nav ul {
     transform: scale(1.05);
 }
 
-/* --- INTERACCIÓN HOVER DE LA ESFERA --- */
 .course-card:hover {
     transform: translateY(-10px) scale(1.02);
     box-shadow: 0 15px 40px rgba(122, 62, 125, 0.3);
@@ -584,69 +525,42 @@ footer {
     100% { transform: translateY(0px); }
 }
 
-@keyframes rotateAura {
-    from { transform: translate(-50%, 0) rotate(0deg); }
-    to { transform: translate(-50%, 0) rotate(360deg); }
-}
-
 @keyframes rotateBackground {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
 
-/* --- SECCIÓN PERFIL DE AUTORIDAD (VENDEDOR) --- */
-
+/* --- PERFIL DE AUTORIDAD --- */
 .authority-section {
     max-width: 1100px;
     margin: 0 auto 100px;
     padding: 0 20px;
 }
 
-/* 1. ENCUESTA DE PERFIL (Foto + Credenciales Fuertes) */
-/* --- TARJETA DE PERFIL (ANIMADA) --- */
-
 .profile-header {
     display: flex;
     align-items: center;
     gap: 50px;
-    
-    /* Estado Normal (Apagado) */
-    background: rgba(255, 255, 255, 0.8); /* Un poco más sólido para contraste */
+    background: rgba(255, 255, 255, 0.8); 
     backdrop-filter: blur(20px);
     border-radius: 40px;
     padding: 50px;
-    
-    /* Borde sutil inicial */
     border: 2px solid rgba(255, 255, 255, 0.8);
     box-shadow: 0 20px 60px rgba(122, 62, 125, 0.1);
-    
     margin-bottom: 60px;
-    
-    /* PREPARACIÓN DE ANIMACIÓN */
-    /* Usamos una transición lenta (0.6s) para que la luz "viaje" suavemente */
     transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
     position: relative;
-    overflow: hidden; /* Asegura que la luz no se salga de las esquinas */
+    overflow: hidden; 
 }
 
-/* --- EFECTO AL PASAR EL MOUSE (LUZ VIOLETA) --- */
 .profile-header:hover {
-    /* 1. La luz interna (inset) que viaja de los bordes al centro */
-    /* inset tamaño color */
-    box-shadow: inset 0 0 100px rgba(122, 62, 125, 0.25), /* Luz suave violeta interna */
-                0 30px 60px rgba(122, 62, 125, 0.3);      /* Sombra externa más fuerte */
-    
-    /* 2. El borde se enciende en violeta sólido */
+    box-shadow: inset 0 0 100px rgba(122, 62, 125, 0.25), 
+                0 30px 60px rgba(122, 62, 125, 0.3);      
     border-color: var(--color-primary);
-    
-    /* 3. La tarjeta flota un poquito hacia arriba */
     transform: translateY(-10px);
-    
-    /* 4. El fondo se vuelve blanco puro para brillar más */
     background: rgba(255, 255, 255, 1);
 }
 
-/* Ajuste para móviles (para que no se rompa la flexbox) */
 @media (max-width: 768px) {
     .profile-header { flex-direction: column; text-align: center; }
 }
@@ -656,7 +570,7 @@ footer {
     width: 250px;
     height: 250px;
     border-radius: 50%;
-    border: 6px solid var(--color-gold); /* Borde dorado de autoridad */
+    border: 6px solid var(--color-gold); 
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(122, 62, 125, 0.3);
     position: relative;
@@ -666,7 +580,6 @@ footer {
     width: 100%; height: 100%; object-fit: cover;
 }
 
-/* Badge de "Verificado" o "Experto" */
 .expert-badge {
     position: absolute;
     bottom: 10px;
@@ -708,7 +621,6 @@ footer {
     margin-bottom: 30px;
 }
 
-/* 2. BARRA DE ESTADÍSTICAS (Esto da jerarquía) */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -732,7 +644,6 @@ footer {
     font-weight: bold;
 }
 
-/* 3. PILARES DE VALOR (Grid de Tarjetas) */
 .value-pillars-title {
     text-align: center;
     font-size: 2.2rem;
@@ -754,7 +665,7 @@ footer {
     text-align: center;
     box-shadow: var(--shadow-soft);
     transition: transform 0.3s;
-    border-top: 5px solid var(--color-gold); /* Detalle de color arriba */
+    border-top: 5px solid var(--color-gold); 
 }
 
 .pillar-card:hover {
@@ -773,9 +684,8 @@ footer {
     margin-bottom: 15px;
 }
 
-/* 4. COMPROMISO ÉTICO (Diseño tipo Sello de Garantía) */
 .ethics-badge {
-    background: #2a1b3d; /* Fondo oscuro elegante */
+    background: #2a1b3d; 
     color: #fff;
     padding: 50px;
     border-radius: 20px;
@@ -799,31 +709,22 @@ footer {
     border-bottom: none;
 }
 
-/* --- TRANSICIÓN SUAVE (DEGRADADO) --- */
 .courses-preview {
-    /* El truco: Un degradado vertical (to bottom) */
-    /* Empieza en #1a0f25 (Oscuro, igual que el final del Hero) */
-    /* Termina en #fdfbfd (Claro, el fondo de la web) */
     background: linear-gradient(to bottom, #1a0f25 0%, #fdfbfd 600px);
-    
     padding: 80px 20px;
     margin-bottom: 80px;
-    
-    /* Margen negativo minúsculo para evitar una línea blanca fina entre secciones */
     margin-top: -2px; 
 }
 
-/* Ajustamos el texto de esta sección para que se lea sobre el degradado oscuro */
 .courses-preview .catalogo-header h2 {
-    color: white; /* Ahora el título es blanco para contrastar */
+    color: white; 
     text-shadow: 0 0 20px rgba(122, 62, 125, 0.5);
 }
 
 .courses-preview .catalogo-header p {
-    color: rgba(255, 255, 255, 0.7) !important; /* Subtítulo gris claro */
+    color: rgba(255, 255, 255, 0.7) !important; 
 }
 
-/* Ajuste opcional: Para que el botón de "Explorar" se vea bien abajo (donde ya es claro) */
 .courses-preview .btn-main {
     border: 2px solid var(--color-primary);
     color: var(--color-primary);
@@ -832,12 +733,10 @@ footer {
 /* =========================================
    7. DASHBOARD (TU AULA VIRTUAL / PERFIL)
    ========================================= */
-
-/* Fondo general del Dashboard: Violeta profundo y místico */
 .dashboard-body {
     background: radial-gradient(circle at top right, #4a244d 0%, #2a1b3d 40%, #150b1a 100%);
-    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
-    padding-top: 120px; /* Espacio para que no lo tape el menú fijo */
+    min-height: 100vh; 
+    padding-top: 120px; 
     padding-bottom: 50px;
     color: white;
     font-family: var(--font-body);
@@ -849,13 +748,12 @@ footer {
     padding: 0 20px;
 }
 
-/* --- ENCABEZADO DE BIENVENIDA --- */
 .dash-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     margin-bottom: 40px;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.2); /* Línea dorada sutil */
+    border-bottom: 1px solid rgba(255, 215, 0, 0.2); 
     padding-bottom: 20px;
 }
 
@@ -881,28 +779,25 @@ footer {
     text-align: right;
 }
 
-/* --- GRID PRINCIPAL --- */
 .dash-grid {
     display: grid;
-    grid-template-columns: 300px 1fr; /* Columna izquierda fija, derecha flexible */
+    grid-template-columns: 300px 1fr; 
     gap: 30px;
 }
 
 @media (max-width: 768px) {
-    .dash-grid { grid-template-columns: 1fr; } /* En celular, todo en una columna */
+    .dash-grid { grid-template-columns: 1fr; } 
 }
 
-/* --- PANELES DE CRISTAL (ESTILO COMÚN) --- */
 .glass-panel {
-    background: rgba(255, 255, 255, 0.05); /* Muy transparente */
-    backdrop-filter: blur(15px); /* Efecto vidrio */
+    background: rgba(255, 255, 255, 0.05); 
+    backdrop-filter: blur(15px); 
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* Tarjeta de Perfil (Izquierda) */
 .profile-card {
     text-align: center;
 }
@@ -954,10 +849,9 @@ footer {
 
 .dash-menu li:hover {
     color: var(--color-gold);
-    padding-left: 10px; /* Pequeño movimiento a la derecha */
+    padding-left: 10px; 
 }
 
-/* Sección de Cursos (Derecha) */
 .section-title {
     font-size: 1.5rem;
     margin-bottom: 20px;
@@ -966,7 +860,6 @@ footer {
     padding-left: 15px;
 }
 
-/* Tarjeta de Curso Activo (Horizontal) */
 .active-course-card {
     display: flex;
     align-items: center;
@@ -1008,55 +901,49 @@ footer {
 .ac-progress-fill {
     height: 100%;
     background: var(--color-gold);
-    width: 0%; /* Se cambiará por HTML */
+    width: 0%; 
     border-radius: 10px;
 }
 
 /* =========================================
    8. ESTILOS DE AUTENTICACIÓN (LOGIN/REGISTRO)
    ========================================= */
-
-/* EL NUEVO FONDO NUBOSO VIOLETA */
 .auth-body {
-    /* Degradado radial para efecto de nebulosa profunda */
     background: radial-gradient(ellipse at center, #5a2a5c 0%, #2a1b3d 60%, #150b1a 100%);
-    min-height: calc(100vh - 80px); /* Altura completa menos el header aprox */
+    min-height: calc(100vh - 80px); 
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 40px 20px;
-    margin-top: -20px; /* Ajuste para que se pegue bien al header */
+    margin-top: -20px; 
 }
 
-/* LA CAJA DEL FORMULARIO (Transformación a Cristal) */
-/* Asegúrate de que tu caja en el HTML tenga esta clase: 'auth-box' */
 .auth-box {
-    background: rgba(255, 255, 255, 0.1); /* Muy transparente */
-    backdrop-filter: blur(20px); /* Efecto vidrio empañado fuerte */
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Borde sutil brillante */
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(20px); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
     border-radius: 25px;
     padding: 50px;
     width: 100%;
-    max-width: 450px; /* Ancho máximo elegante */
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3); /* Sombra profunda para que flote */
-    color: white; /* Texto blanco */
+    max-width: 450px; 
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3); 
+    color: white; 
     text-align: center;
 }
 
 .auth-box h2 {
-    color: var(--color-gold); /* Título dorado */
+    color: var(--color-gold); 
     margin-bottom: 30px;
     font-size: 2rem;
 }
 
-/* ESTILO DE LOS CAMPOS DE TEXTO (Inputs) */
 .auth-box input[type="email"],
 .auth-box input[type="password"],
 .auth-box input[type="text"] {
-    background: rgba(0, 0, 0, 0.2) !important; /* Fondo oscuro transparente */
+    background: rgba(0, 0, 0, 0.2) !important; 
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    color: white !important; /* Texto que escribes en blanco */
-    border-radius: 50px !important; /* Redondear inputs */
+    color: white !important; 
+    border-radius: 50px !important; 
     padding: 15px 25px !important;
     margin-bottom: 20px;
     width: 100%;
@@ -1064,19 +951,16 @@ footer {
     transition: all 0.3s;
 }
 
-/* Al hacer clic en el input */
 .auth-box input:focus {
     border-color: var(--color-gold) !important;
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.2) !important;
     outline: none;
 }
 
-/* Color del texto de ayuda (placeholder) */
 .auth-box ::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
 
-/* Ajuste del botón para que combine */
 .auth-box .btn-main {
     width: 100%;
     padding: 15px;
@@ -1097,31 +981,27 @@ footer {
 /* =========================================
    9. PÁGINA DE CURSOS (CATÁLOGO COMPLETO)
    ========================================= */
-
-/* Fondo Nebulosa (Consistente con el resto de la app) */
 .courses-body {
     background: radial-gradient(circle at center top, #4a244d 0%, #2a1b3d 50%, #150b1a 100%);
-    min-height: 100vh; /* Ocupa toda la pantalla */
-    padding-top: 140px; /* Espacio para el menú fijo */
+    min-height: 100vh; 
+    padding-top: 140px; 
     padding-bottom: 80px;
 }
 
-/* Título Principal Brillante */
 .courses-header-title {
     text-align: center;
     color: white;
     font-size: 3.5rem;
     margin-bottom: 15px;
-    text-shadow: 0 0 25px rgba(122, 62, 125, 0.8); /* Resplandor violeta */
+    text-shadow: 0 0 25px rgba(122, 62, 125, 0.8); 
     font-family: var(--font-heading);
 }
 
-/* Subtítulo Dorado */
 .courses-header-subtitle {
     text-align: center;
     color: var(--color-gold);
     font-size: 1.1rem;
-    margin-bottom: 70px; /* Separación con las esferas */
+    margin-bottom: 70px; 
     opacity: 0.9;
     letter-spacing: 1px;
     line-height: 1.6;

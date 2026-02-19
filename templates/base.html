@@ -8,33 +8,46 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <a href="/" class="logo-container">
-            <img src="{{ url_for('static', filename='img/logo-qenty.png') }}" alt="QENTY Logo">
-        </a>
+    <header class="main-header">
+        
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='img/logo-qenty.png') }}" alt="Qenty" class="nav-logo">
+        </div>
 
-        <nav>
-            <ul>
-                <li><a href="/" class="nav-link">Inicio</a></li>
-                <li><a href="/cursos" class="nav-link">Cursos Online</a></li>
+        <nav class="main-nav">
+            <a href="{{ url_for('home') }}" class="nav-link">Inicio</a>
+            <a href="{{ url_for('cursos') }}" class="nav-link">Cursos</a>
             
-                {% if current_user.is_authenticated %}
-                    <li><a href="/mis-cursos" class="nav-link highlight">Mi Aula</a></li>
-                    <li><a href="/logout" class="nav-btn-logout">Salir</a></li>
+            {% if current_user.is_authenticated %}
+                {% if current_user.is_admin %}
+                    <a href="{{ url_for('admin_panel') }}" class="nav-link active" style="color: #ff6b6b;">Panel Admin</a>
                 {% else %}
-                    <li><a href="/login" class="nav-btn-login">Acceder</a></li>
+                    <a href="{{ url_for('mis_cursos') }}" class="nav-link active">Mi Aula</a>
                 {% endif %}
-            </ul>
+                <a href="{{ url_for('logout') }}" class="nav-link">Salir</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="nav-link">Ingresar</a>
+            {% endif %}
         </nav>
+
     </header>
 
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+    <div class="page-content">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="alert">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
 
-    <footer>
+        {% block content %}{% endblock %}
+    </div> <footer>
         <p>&copy; 2026 QENTY - Academia de Transformación Personal.</p>
     </footer>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
+
