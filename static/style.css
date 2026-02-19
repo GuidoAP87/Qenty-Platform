@@ -150,6 +150,7 @@ a {
 /* =========================================
    3. HERO SECTION (PORTADA PODEROSA)
    ========================================= */
+/* 3. HERO SECTION (PORTADA PODEROSA) */
 .hero {
     text-align: center;
     padding: 180px 20px 120px; 
@@ -157,8 +158,11 @@ a {
     z-index: 1;
     background: radial-gradient(ellipse at center top, #5a2a5c 0%, #2a1b3d 60%, #1a0f25 100%);
     color: white;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-    box-shadow: inset 0 -20px 30px rgba(0,0,0,0.3);
+    
+    /* --- AQUÍ HICIMOS EL CAMBIO --- */
+    border-bottom: none; /* Antes tenía un borde amarillo, ahora lo quitamos */
+    box-shadow: none;    /* También quitamos la sombra para que la unión sea invisible */
+    /* ----------------------------- */
 }
 
 .hero h1 {
