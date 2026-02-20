@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-body">
+    <div class="dashboard-container" style="max-width: 600px; margin: 0 auto;">
+        
+        <h2 style="color: white; text-align: center; margin-bottom: 30px;">
+            <span style="font-size: 2rem;">✏️</span><br>
+            Editar Curso
+        </h2>
+
+        <div class="glass-panel">
+            <form action="{{ url_for('editar_curso', id=curso.id) }}" method="POST">
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="color: var(--color-gold); font-weight: bold; display: block; margin-bottom: 5px;">Nombre del Curso</label>
+                    <input type="text" name="nombre" value="{{ curso.nombre }}" required style="width: 100%; padding: 10px; border-radius: 5px; border: none; background: rgba(255,255,255,0.9);">
+                </div>
+
+                <div style="margin-bottom: 20px; display: flex; gap: 20px;">
+                    <div style="flex: 1;">
+                        <label style="color: var(--color-gold); font-weight: bold; display: block; margin-bottom: 5px;">Precio (ARS)</label>
+                        <input type="number" name="precio" value="{{ curso.precio }}" required style="width: 100%; padding: 10px; border-radius: 5px; border: none; background: rgba(255,255,255,0.9);">
+                    </div>
+                    <div style="flex: 1;">
+                        <label style="color: var(--color-gold); font-weight: bold; display: block; margin-bottom: 5px;">Emoji / Icono</label>
+                        <input type="text" name="icono" value="{{ curso.icono }}" required style="width: 100%; padding: 10px; border-radius: 5px; border: none; background: rgba(255,255,255,0.9);">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="color: var(--color-gold); font-weight: bold; display: block; margin-bottom: 5px;">ID Video YouTube</label>
+                    <input type="text" name="video_url" value="{{ curso.video_url }}" required style="width: 100%; padding: 10px; border-radius: 5px; border: none; background: rgba(255,255,255,0.9);">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="color: var(--color-gold); font-weight: bold; display: block; margin-bottom: 5px;">Descripción</label>
+                    <textarea name="desc" required rows="4" style="width: 100%; padding: 10px; border-radius: 5px; border: none; background: rgba(255,255,255,0.9);">{{ curso.desc }}</textarea>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-top: 30px;">
+                    <button type="submit" class="btn-main" style="flex: 1; text-align: center; border: none; cursor: pointer;">Guardar Cambios</button>
+                    <a href="{{ url_for('admin_panel') }}" class="btn-main" style="flex: 1; text-align: center; background: rgba(255,255,255,0.2); color: white;">Cancelar</a>
+                </div>
+                
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

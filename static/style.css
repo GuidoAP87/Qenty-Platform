@@ -1010,3 +1010,74 @@ footer {
     letter-spacing: 1px;
     line-height: 1.6;
 }
+
+/* =========================================
+   10. PANEL ADMIN: TABLA DE ALUMNOS Y VENTAS
+   ========================================= */
+.admin-section {
+    margin-top: 60px;
+    background: rgba(42, 27, 61, 0.4);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.stats-panel {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    border-left: 4px solid var(--color-gold);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stats-panel h3 {
+    margin: 0 0 5px 0;
+    font-size: 2rem;
+}
+
+.stats-panel p {
+    margin: 0;
+    color: #ccc;
+    font-size: 1.1rem;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-table th, .admin-table td {
+    padding: 20px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.admin-table th {
+    background: rgba(0, 0, 0, 0.4);
+    color: var(--color-gold);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.admin-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.admin-course-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.admin-course-list li {
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+}

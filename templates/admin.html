@@ -63,7 +63,9 @@
                         <p style="color: #aaa; margin: 0; font-size: 0.8rem;">${{ curso.precio }}</p>
                     </div>
                 </div>
-                
+                <a href="{{ url_for('editar_curso', id=curso.id) }}" class="btn-main" style="background: var(--color-gold); color: #2a1b3d; padding: 8px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 0.9rem; margin-right: 10px;">
+                ✏️ Editar
+                </a>
                 <a href="/admin/borrar/{{ curso.id }}" 
                    onclick="return confirm('¿Seguro que quieres borrar este curso? No se puede deshacer.')"
                    style="background: #ff4757; color: white; padding: 5px 15px; border-radius: 5px; text-decoration: none; font-size: 0.8rem;">
@@ -76,4 +78,54 @@
 
     </div>
 </div>
+<div class="admin-section">
+        <h2 style="color: white; border-left: 4px solid var(--color-gold); padding-left: 15px;">
+            📊 Panel de Ventas y Alumnos
+        </h2>
+
+        <div class="stats-panel">
+            <h3>Ingresos Totales: <span style="color: var(--color-gold);">${{ ingresos_totales }}</span></h3>
+            <p>Total de alumnos registrados en la academia: <strong>{{ alumnos|length }}</strong></p>
+        </div>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Nombre y Email</th>
+                    <th>Cursos Adquiridos</th>
+                    <th>Total Invertido</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alumno in alumnos %}
+                <tr>
+                    <td>
+                        <strong>{{ alumno.nombre }}</strong><br>
+                        <span style="font-size: 0.85rem; color: #aaa;">{{ alumno.email }}</span>
+                    </td>
+                    <td>
+                        {% if alumno.cursos_adquiridos %}
+                            <ul class="admin-course-list">
+                            {% for curso in alumno.cursos_adquiridos %}
+                                <li>{{ curso.icono }} {{ curso.nombre }} <span style="color: #888;">(${{ curso.precio }})</span></li>
+                            {% endfor %}
+                            </ul>
+                        {% else %}
+                            <span style="color: #ff6b6b; font-size: 0.9rem;">Sin compras aún</span>
+                        {% endif %}
+                    </td>
+                    <td style="color: var(--color-gold); font-weight: bold;">
+                        ${{ alumno.cursos_adquiridos | sum(attribute='precio') }}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" style="text-align: center; padding: 30px; color: #888;">
+                        Todavía no hay alumnos registrados en la plataforma.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

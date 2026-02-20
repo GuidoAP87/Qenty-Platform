@@ -104,9 +104,17 @@ def admin_panel():
         flash('¡Curso agregado exitosamente!')
         return redirect(url_for('admin_panel'))
     
-    # Mostrar lista de cursos para gestionar
+    # 1. Mostrar lista de cursos para gestionar
     cursos = Course.query.all()
-    return render_template('admin.html', cursos=cursos)
+    
+    # 2. Obtener a todos los alumnos (los que NO son admin)
+    alumnos = User.query.filter_by(is_admin=False).all()
+    
+    # 3. Calcular los ingresos totales de forma automática
+    ingresos_totales = sum([curso.precio for alumno in alumnos for curso in alumno.cursos_adquiridos])
+    
+    # Mandamos todo a la plantilla
+    return render_template('admin.html', cursos=cursos, alumnos=alumnos, ingresos_totales=ingresos_totales)
 
 @app.route('/admin/borrar/<int:id>')
 @login_required
@@ -117,6 +125,29 @@ def borrar_curso(id):
     db.session.commit()
     flash('Curso eliminado.')
     return redirect(url_for('admin_panel'))
+
+# NUEVA RUTA: EDITAR CURSO
+@app.route('/admin/editar/<int:id>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def editar_curso(id):
+    # Buscamos el curso exacto que queremos editar
+    curso = Course.query.get_or_404(id)
+    
+    if request.method == 'POST':
+        # Actualizamos los datos con lo que venga del formulario
+        curso.nombre = request.form.get('nombre')
+        curso.precio = int(request.form.get('precio'))
+        curso.desc = request.form.get('desc')
+        curso.icono = request.form.get('icono')
+        curso.video_url = request.form.get('video_url')
+        
+        db.session.commit() # Guardamos los cambios en la base de datos
+        flash('¡Curso actualizado exitosamente!')
+        return redirect(url_for('admin_panel'))
+        
+    # Si es GET, mostramos el formulario con los datos actuales
+    return render_template('editar_curso.html', curso=curso)
 
 # --- RUTAS DE PAGO (MERCADO PAGO) ---
 
