@@ -289,8 +289,9 @@ def cargar_datos_iniciales():
 
     db.session.commit()
 
+with app.app_context():
+    db.create_all()
+    cargar_datos_iniciales()
+
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-        cargar_datos_iniciales() # Ejecuta la carga automática
     app.run(debug=True)
