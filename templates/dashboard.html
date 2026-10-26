@@ -55,7 +55,7 @@
                                 <div class="ac-progress-fill" style="width: 10%;"></div>
                             </div>
                         </div>
-                        <a href="#" class="btn-course" style="padding: 8px 20px; font-size: 0.7rem; margin-left: 15px;">Entrar al Aula</a>
+                        <a href="{{ url_for('aula', course_id=curso.id) }}" class="btn-course" style="padding: 8px 20px; font-size: 0.7rem; margin-left: 15px;">Entrar al Aula</a>
                     </div>
                     {% endfor %}
 

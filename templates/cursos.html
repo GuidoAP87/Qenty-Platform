@@ -35,7 +35,13 @@
                     <h3>{{ item.nombre }}</h3>
                     <p class="course-desc">{{ item.desc }}</p>
                     
-                    <a href="#" class="btn-course">Inscribirse</a>
+                    {% if not current_user.is_authenticated %}
+                        <a href="{{ url_for('login') }}" class="btn-course">Inscribirse</a>
+                    {% elif item in current_user.cursos_adquiridos %}
+                        <a href="{{ url_for('aula', course_id=item.id) }}" class="btn-course">Entrar al Aula</a>
+                    {% else %}
+                        <a href="{{ url_for('iniciar_compra', course_id=item.id) }}" class="btn-course">Inscribirse</a>
+                    {% endif %}
                 </div>
                 
             </div>
