@@ -23,8 +23,29 @@ app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 if not app.config['SECRET_KEY']:
     app.config['SECRET_KEY'] = secrets.token_hex(32)
     print("[AVISO] No hay SECRET_KEY en .env. Se genero una temporal.")
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///qenty.db'
+
+
+def url_de_base_de_datos():
+    # La URL sale del entorno, asi la misma app corre con SQLite en tu maquina
+    # y con Postgres en el servidor sin tocar una linea de codigo.
+    url = os.getenv("DATABASE_URL")
+
+    if not url:
+        print("[AVISO] No hay DATABASE_URL: usando SQLite local.")
+        return 'sqlite:///qenty.db'
+
+    # Render y Heroku entregan la URL empezando con "postgres://", un prefijo
+    # que SQLAlchemy 2 ya no reconoce. Hay que pasarlo a "postgresql://".
+    if url.startswith("postgres://"):
+        url = url.replace("postgres://", "postgresql://", 1)
+
+    return url
+
+app.config['SQLALCHEMY_DATABASE_URI'] = url_de_base_de_datos()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Las bases gestionadas cortan las conexiones ociosas. Con pool_pre_ping la
+# conexion muerta se descarta y se reconecta, en vez de romper la consulta.
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"pool_pre_ping": True}
 
 # Configuración de Mercado Pago
 token_mp = os.getenv("MP_ACCESS_TOKEN")
