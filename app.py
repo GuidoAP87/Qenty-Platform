@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from werkzeug.middleware.proxy_fix import ProxyFix # Para las URLs detras del proxy
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps # Necesario para proteger las rutas de admin
 import random
@@ -14,6 +15,12 @@ import mercadopago # Para cobrar
 load_dotenv()
 
 app = Flask(__name__)
+
+# Detras del proxy del hosting, Flask ve http y el host interno. Sin esto,
+# las back_urls que le pasamos a Mercado Pago salen en http y el pago no
+# puede volver a la app. En local no cambia nada: sin proxy no hay cabeceras
+# que leer.
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
 # --- CONFIGURACIÓN ---
 # La clave de sesion nunca va escrita en el codigo (el repo es publico).

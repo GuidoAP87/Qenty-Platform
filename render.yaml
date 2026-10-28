@@ -1,0 +1,41 @@
+# Blueprint de Render: crea el servicio web y la base Postgres juntos.
+# En Render: New > Blueprint > elegir este repositorio.
+#
+# Las variables marcadas con "sync: false" NO viajan en el repo: Render las
+# pide una sola vez al crear el blueprint.
+
+services:
+  - type: web
+    name: qenty
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    healthCheckPath: /
+    envVars:
+      # Render completa esta con la URL de la base de abajo.
+      - key: DATABASE_URL
+        fromDatabase:
+          name: qenty-db
+          property: connectionString
+
+      # Render genera una clave al azar la primera vez y la conserva.
+      - key: SECRET_KEY
+        generateValue: true
+
+      # Estas las cargas vos en el panel, al crear el blueprint.
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: MP_ACCESS_TOKEN
+        sync: false
+
+      # Fijamos la version: las dependencias del proyecto no estan probadas
+      # contra la ultima que elija Render por su cuenta.
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+
+databases:
+  - name: qenty-db
+    plan: free
