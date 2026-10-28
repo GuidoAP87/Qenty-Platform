@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard-body">
+
+    <div class="dashboard-container">
+
+        <div class="dash-header">
+            <div class="dash-welcome">
+                <span>Aula Virtual</span>
+                <h1>{{ curso.icono }} {{ curso.nombre }}</h1>
+            </div>
+            <a href="/mis-cursos" class="btn-main" style="background: transparent; border: 1px solid white;">← Volver a Mis Cursos</a>
+        </div>
+
+        <div class="dash-grid" style="grid-template-columns: 1fr;">
+
+            <div class="glass-panel">
+                <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; background: #000;">
+                    {% if curso.video_url %}
+                    <iframe
+                        src="https://www.youtube.com/embed/{{ curso.video_url }}"
+                        title="{{ curso.nombre }}"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                    {% else %}
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #bbb;">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">🎬</div>
+                        <p>El video de este curso todavía no está cargado.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <h2 class="section-title">Sobre esta formación</h2>
+                <p style="color: #ddd; line-height: 1.7;">{{ curso.desc }}</p>
+
+                <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #aaa; font-size: 0.9rem;">
+                    ✨ Acceso permanente · Avanzá a tu propio ritmo
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
